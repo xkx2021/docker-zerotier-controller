@@ -1,0 +1,17 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print image url
+      run: echo "${{ secrets.REG_URL }}--${{ secrets.REG_NAME }}--${{ secrets.REG_PWD }}"
