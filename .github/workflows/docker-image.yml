@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-20.04
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ${{ secrets.REG_URL }}/zerotier-controller:v1.8.9
+      
+    - name: Push To Registry
+      uses: redhat-actions/push-to-registry@v2.6
+      with:
+        image: zerotier-controller
+        tags: ${{ secrets.REG_URL }}/zerotier-controller:v1.8.9
+        registry: ${{ secrets.REG_URL }}
+        username: ${{ secrets.REG_NAME }}
+        password: ${{ secrets.REG_PWD }} 
