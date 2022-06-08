@@ -1,0 +1,17 @@
+name: Test
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: echo "Image pushed to ${{secrets.REG_URL}}--${{secrets.REG_NAME}}--${{secrets.REG_PWD}}"
