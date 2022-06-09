@@ -1,7 +1,8 @@
 name: Docker Image CI
 
 on:
-  push
+  push:
+    branches: [ master ]
   
 jobs:
 
@@ -10,15 +11,15 @@ jobs:
     runs-on: ubuntu-20.04
     
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ secrets.HOST }}/zerotier-controller:v1.8.9
-      
-    - name: Push To Registry
-      uses: redhat-actions/push-to-registry@v2.6
+    - name: Docker Login
+      uses: docker/login-action@v2.0.0
       with:
-        image: zerotier-controller
-        tags: ${{ secrets.HOST }}/zerotier-controller:v1.8.9
         registry: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }} 
+        
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: |
+        time=$(date "+%Y%m%d")
+        docker build . --file Dockerfile --tag ${{ secrets.HOST }}/zerotier-controller:$time && docker push ${{ secrets.HOST }}/zerotier-controller:$time
