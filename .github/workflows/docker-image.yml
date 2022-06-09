@@ -1,10 +1,8 @@
 name: Docker Image CI
 
 on:
-  push:
-    paths:
-      - 'Dockerfile'
-
+  push
+  
 jobs:
 
   build:
