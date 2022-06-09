@@ -12,15 +12,18 @@ jobs:
     runs-on: ubuntu-20.04
     
     steps:
+    - name: Test secrets
+      run: echo "my registry is ${{ secrets.HOST }}"
+    
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ${{ secrets.REGISTRY_URL }}/zerotier-controller:v1.8.9
+      run: docker build . --file Dockerfile --tag ${{ secrets.HOST }}/zerotier-controller:v1.8.9
       
     - name: Push To Registry
       uses: redhat-actions/push-to-registry@v2.6
       with:
         image: zerotier-controller
-        tags: ${{ secrets.REGISTRY_URL }}/zerotier-controller:v1.8.9
-        registry: ${{ secrets.REGISTRY_URL }}
-        username: ${{ secrets.REGISTRY_USERNAME }}
-        password: ${{ secrets.REGISTRY_PASSWORD }} 
+        tags: ${{ secrets.HOST }}/zerotier-controller:v1.8.9
+        registry: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }} 
