@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-20.04
     
     steps:
-    - name: Test secrets
-      run: echo "my registry is ${{ secrets.HOST }}"
-    
     - uses: actions/checkout@v3
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{ secrets.HOST }}/zerotier-controller:v1.8.9
